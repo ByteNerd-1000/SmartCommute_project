@@ -1,0 +1,31 @@
+trip_id,stop_sequence,station_name,arrival_time
+1,1,PCMC,06:00
+1,2,Sant Tukaram Nagar,06:03
+1,3,Nashik Phata,06:06
+1,4,Kasarwadi,06:09
+1,5,Phugewadi,06:12
+1,6,Dapodi,06:15
+1,7,Bopodi,06:18
+1,8,Khadki,06:21
+1,9,Range Hills,06:24
+1,10,Shivajinagar,06:27
+1,11,Civil Court,06:30
+1,12,Budhwar Peth,06:33
+1,13,Mandai,06:36
+1,14,Swargate,06:39
+2,1,Vanaz,06:00
+2,2,Anand Nagar,06:03
+2,3,Ideal Colony,06:06
+2,4,Nal Stop,06:09
+2,5,Garware College,06:12
+2,6,Deccan Gymkhana,06:15
+2,7,Chhatrapati Sambhaji Udyan,06:18
+2,8,PMC,06:21
+2,9,Civil Court,06:24
+2,10,Mangalwar Peth,06:27
+2,11,Pune Railway Station,06:30
+2,12,Ruby Hall Clinic,06:33
+2,13,Bund Garden,06:36
+2,14,Yerwada,06:39
+2,15,Kalyani Nagar,06:42
+2,16,Ramwadi,06:45

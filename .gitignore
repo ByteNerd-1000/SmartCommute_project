@@ -1,0 +1,24 @@
+# Root level .gitignore
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Environment
+.env
+.env.local
+
+# Directories
+.cache/
+tmp/
+temp/
+
+# Logs
+*.log

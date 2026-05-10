@@ -1,0 +1,31 @@
+stop_id,station_name,metro_line,sequence_order,latitude,longitude,first_metro,last_metro,interchange,operational_status
+1,PCMC,Purple,1,18.628,73.799,06:00,23:00,no,active
+2,Sant Tukaram Nagar,Purple,2,18.6225,73.8045,06:00,23:00,no,active
+3,Nashik Phata,Purple,3,18.6075,73.811,06:00,23:00,no,active
+4,Kasarwadi,Purple,4,18.5938,73.8155,06:00,23:00,no,active
+5,Phugewadi,Purple,5,18.5815,73.821,06:00,23:00,no,active
+6,Dapodi,Purple,6,18.5732,73.831,06:00,23:00,no,active
+7,Bopodi,Purple,7,18.563,73.8375,06:00,23:00,no,active
+8,Khadki,Purple,8,18.5525,73.844,06:00,23:00,no,active
+9,Range Hills,Purple,9,18.544,73.8475,06:00,23:00,no,active
+10,Shivajinagar,Purple,10,18.5305,73.847,06:00,23:00,no,active
+11,Civil Court,Purple,11,18.5228,73.8572,06:00,23:00,yes,active
+12,Budhwar Peth,Purple,12,18.5175,73.8585,06:00,23:00,no,active
+13,Mandai,Purple,13,18.5122,73.859,06:00,23:00,no,active
+14,Swargate,Purple,14,18.5018,73.8636,06:00,23:00,no,active
+15,Vanaz,Aqua,1,18.5025,73.7865,06:00,23:00,no,active
+16,Anand Nagar,Aqua,2,18.506,73.7935,06:00,23:00,no,active
+17,Ideal Colony,Aqua,3,18.5095,73.7995,06:00,23:00,no,active
+18,Nal Stop,Aqua,4,18.513,73.8065,06:00,23:00,no,active
+19,Garware College,Aqua,5,18.5185,73.814,06:00,23:00,no,active
+20,Deccan Gymkhana,Aqua,6,18.5205,73.839,06:00,23:00,no,active
+21,Chhatrapati Sambhaji Udyan,Aqua,7,18.5235,73.8475,06:00,23:00,no,active
+22,PMC,Aqua,8,18.5245,73.8525,06:00,23:00,no,active
+23,Civil Court,Aqua,9,18.5228,73.8572,06:00,23:00,yes,active
+24,Mangalwar Peth,Aqua,10,18.527,73.8665,06:00,23:00,no,active
+25,Pune Railway Station,Aqua,11,18.5288,73.8745,06:00,23:00,no,active
+26,Ruby Hall Clinic,Aqua,12,18.5318,73.8785,06:00,23:00,no,active
+27,Bund Garden,Aqua,13,18.5365,73.8845,06:00,23:00,no,active
+28,Yerwada,Aqua,14,18.551,73.895,06:00,23:00,no,active
+29,Kalyani Nagar,Aqua,15,18.5485,73.9035,06:00,23:00,no,active
+30,Ramwadi,Aqua,16,18.5535,73.9125,06:00,23:00,no,active
