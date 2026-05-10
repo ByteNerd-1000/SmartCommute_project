@@ -159,7 +159,7 @@ export const SearchPage: React.FC = () => {
                         <p className={isDarkMode ? 'text-gray-400' : 'text-gray-600'}>
                           {[...new Set(selectedRoute.modes)].map((m: string) => modeLabel(m)).join(' → ')}
                           {selectedRoute.via_stops?.find((s: string) => s.startsWith('Bus route:'))
-                            ? ` • ${selectedRoute.via_stops.find((s: string) => s.startsWith('Bus route:')).replace('Bus route: ', '')}`
+                            ? ` • ${selectedRoute.via_stops.find((s: string) => s.startsWith('Bus route:'))?.replace('Bus route: ', '')}`
                             : ''}
                         </p>
                       </div>
