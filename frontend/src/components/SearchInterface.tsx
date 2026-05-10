@@ -86,6 +86,13 @@ export const SearchInterface: React.FC<SearchInterfaceProps> = ({ onSearch }) =>
     type: place.type ?? (place.stop_id ? 'bus_stop' : 'place'),
   });
 
+  const fuzzyMatch = (text: string, query: string) => {
+    if (!text || !query) return false;
+    const terms = query.toLowerCase().trim().split(/\s+/);
+    const target = text.toLowerCase();
+    return terms.every(term => target.includes(term));
+  };
+
   // Search real places for source
   useEffect(() => {
     if (sourceInput.trim().length < 2) {
@@ -93,27 +100,28 @@ export const SearchInterface: React.FC<SearchInterfaceProps> = ({ onSearch }) =>
       return;
     }
     const timer = window.setTimeout(async () => {
+      // 1. Instant local search (fuzzy)
+      const allStops = [...(busStops || []), ...(metroStations || [])];
+      const localResults = allStops.filter(stop => 
+        fuzzyMatch(stop.stop_name || stop.name || '', sourceInput)
+      ).slice(0, 5);
+      
+      setSourceSuggestions(localResults);
+
+      // 2. Fetch remote and merge
       try {
-        const response = await apiService.searchLocations(sourceInput, 8);
-        let results = response.data.results || [];
+        const response = await apiService.searchLocations(sourceInput, 5);
+        const remoteResults = response.data.results || [];
         
-        // Fallback to local transit database if Nominatim finds nothing
-        if (results.length === 0) {
-          const allStops = [...(busStops || []), ...(metroStations || [])];
-          results = allStops.filter(stop => {
-            const stopName = stop.stop_name || stop.name || '';
-            return stopName.toLowerCase().includes(sourceInput.toLowerCase());
-          }).slice(0, 8);
-        }
-        setSourceSuggestions(results);
+        // Merge and deduplicate by name
+        const merged = [...localResults, ...remoteResults];
+        const unique = Array.from(new Map(merged.map(item => [item.name || item.stop_name, item])).values());
+        
+        setSourceSuggestions(unique.slice(0, 8));
       } catch {
-        const allStops = [...(busStops || []), ...(metroStations || [])];
-        setSourceSuggestions(allStops.filter(stop => {
-          const stopName = stop.stop_name || stop.name || '';
-          return stopName.toLowerCase().includes(sourceInput.toLowerCase());
-        }).slice(0, 8));
+        // Just keep local results if network fails
       }
-    }, 250);
+    }, 400);
     return () => window.clearTimeout(timer);
   }, [sourceInput, busStops, metroStations]);
 
@@ -124,27 +132,28 @@ export const SearchInterface: React.FC<SearchInterfaceProps> = ({ onSearch }) =>
       return;
     }
     const timer = window.setTimeout(async () => {
+      // 1. Instant local search (fuzzy)
+      const allStops = [...(busStops || []), ...(metroStations || [])];
+      const localResults = allStops.filter(stop => 
+        fuzzyMatch(stop.stop_name || stop.name || '', destInput)
+      ).slice(0, 5);
+      
+      setDestSuggestions(localResults);
+
+      // 2. Fetch remote and merge
       try {
-        const response = await apiService.searchLocations(destInput, 8);
-        let results = response.data.results || [];
+        const response = await apiService.searchLocations(destInput, 5);
+        const remoteResults = response.data.results || [];
         
-        // Fallback to local transit database if Nominatim finds nothing
-        if (results.length === 0) {
-          const allStops = [...(busStops || []), ...(metroStations || [])];
-          results = allStops.filter(stop => {
-            const stopName = stop.stop_name || stop.name || '';
-            return stopName.toLowerCase().includes(destInput.toLowerCase());
-          }).slice(0, 8);
-        }
-        setDestSuggestions(results);
+        // Merge and deduplicate by name
+        const merged = [...localResults, ...remoteResults];
+        const unique = Array.from(new Map(merged.map(item => [item.name || item.stop_name, item])).values());
+        
+        setDestSuggestions(unique.slice(0, 8));
       } catch {
-        const allStops = [...(busStops || []), ...(metroStations || [])];
-        setDestSuggestions(allStops.filter(stop => {
-          const stopName = stop.stop_name || stop.name || '';
-          return stopName.toLowerCase().includes(destInput.toLowerCase());
-        }).slice(0, 8));
+        // Just keep local results
       }
-    }, 250);
+    }, 400);
     return () => window.clearTimeout(timer);
   }, [destInput, busStops, metroStations]);
 
