@@ -1,7 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Award, TrendingDown, Zap, Leaf } from 'lucide-react';
-import { useThemeStore } from '../store/theme';
 
 interface Route {
   id: string;
@@ -45,11 +44,9 @@ const RecommendationCard: React.FC<{
   title: string;
   icon: React.ReactNode;
   recommendation: Recommendation;
-  color: string;
+  accentClass: string;
   onSelect: (route: Route) => void;
-}> = ({ title, icon, recommendation, color, onSelect }) => {
-  const { isDarkMode } = useThemeStore();
-  
+}> = ({ title, icon, recommendation, accentClass, onSelect }) => {
   if (!recommendation) return null;
 
   const { route, reason } = recommendation;
@@ -67,55 +64,55 @@ const RecommendationCard: React.FC<{
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
       onClick={() => onSelect(route)}
-      className={`${
-        isDarkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'
-      } border rounded-lg p-4 cursor-pointer hover:shadow-lg transition-shadow ${color}`}
+      className="group relative overflow-hidden bg-white/90 dark:bg-slate-900/75 border border-slate-200/80 dark:border-slate-700 rounded-2xl p-4 cursor-pointer hover:shadow-xl dark:hover:shadow-slate-900/50 transition-all hover:-translate-y-0.5 backdrop-blur-xl"
     >
+      <div className={`absolute inset-x-0 top-0 h-1 bg-gradient-to-r ${accentClass} opacity-90`} />
+
       {/* Header */}
-      <div className="flex items-center gap-3 mb-3">
-        <div className={`${color} p-2 rounded-lg`}>
+      <div className="flex items-center gap-3 mb-4">
+        <div className={`p-2.5 rounded-2xl ${accentClass} ring-1 ring-white/20`}>
           {icon}
         </div>
         <div>
-          <h3 className="font-bold text-lg">{title}</h3>
-          <p className={`text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>{reason}</p>
+          <h3 className="font-bold text-base text-slate-900 dark:text-white">{title}</h3>
+          <p className="text-xs text-slate-500 dark:text-slate-400 line-clamp-2">{reason}</p>
         </div>
       </div>
 
       {/* Route Details */}
-      <div className="space-y-2 mb-3">
+      <div className="space-y-2 mb-4">
         {/* Fare */}
         <div className="flex justify-between items-center">
-          <span className={`text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>Fare:</span>
-          <span className="font-bold text-lg">₹{route.fare.toFixed(2)}</span>
+          <span className="text-sm text-slate-500 dark:text-slate-400">Fare</span>
+          <span className="font-bold text-lg text-primary-600 dark:text-primary-400">₹{route.fare.toFixed(2)}</span>
         </div>
 
         {/* Duration */}
         <div className="flex justify-between items-center">
-          <span className={`text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>Duration:</span>
-          <span className="font-semibold">{route.duration_minutes} min</span>
+          <span className="text-sm text-slate-500 dark:text-slate-400">Duration</span>
+          <span className="font-semibold text-slate-900 dark:text-white">{route.duration_minutes} min</span>
         </div>
 
         {/* Distance */}
         <div className="flex justify-between items-center">
-          <span className={`text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>Distance:</span>
-          <span className="font-semibold">{route.distance_km.toFixed(1)} km</span>
+          <span className="text-sm text-slate-500 dark:text-slate-400">Distance</span>
+          <span className="font-semibold text-slate-900 dark:text-white">{route.distance_km.toFixed(1)} km</span>
         </div>
 
         {/* Modes */}
-        <div className="flex gap-1 mt-2">
+        <div className="flex flex-wrap gap-1 mt-2">
           {route.modes.map((mode, idx) => (
             <span
               key={idx}
-              className={`px-2 py-1 text-xs rounded ${
-                mode === 'walk' ? 'bg-orange-500/20 text-orange-400' :
-                mode === 'bus' ? 'bg-blue-500/20 text-blue-400' :
-                mode === 'metro' ? 'bg-purple-500/20 text-purple-400' :
-                mode === 'rapido_bike' ? 'bg-yellow-500/20 text-yellow-400' :
-                mode === 'auto' ? 'bg-amber-500/20 text-amber-400' :
-                mode === 'ola_mini' ? 'bg-indigo-500/20 text-indigo-400' :
-                mode === 'uber_go' ? 'bg-slate-500/20 text-slate-300' :
-                'bg-green-500/20 text-green-400'
+              className={`px-2 py-0.5 text-xs rounded-full font-medium ${
+                mode === 'walk' ? 'bg-green-100 text-green-700 dark:bg-green-500/20 dark:text-green-400' :
+                mode === 'bus' ? 'bg-blue-100 text-blue-700 dark:bg-blue-500/20 dark:text-blue-400' :
+                mode === 'metro' ? 'bg-purple-100 text-purple-700 dark:bg-purple-500/20 dark:text-purple-400' :
+                mode === 'rapido_bike' ? 'bg-yellow-100 text-yellow-700 dark:bg-yellow-500/20 dark:text-yellow-400' :
+                mode === 'auto' ? 'bg-amber-100 text-amber-700 dark:bg-amber-500/20 dark:text-amber-400' :
+                mode === 'ola_mini' ? 'bg-indigo-100 text-indigo-700 dark:bg-indigo-500/20 dark:text-indigo-400' :
+                mode === 'uber_go' ? 'bg-slate-100 text-slate-700 dark:bg-slate-500/20 dark:text-slate-300' :
+                'bg-green-100 text-green-700 dark:bg-green-500/20 dark:text-green-400'
               }`}
             >
               {modeLabel[mode] || mode.charAt(0).toUpperCase() + mode.slice(1)}
@@ -123,17 +120,13 @@ const RecommendationCard: React.FC<{
           ))}
         </div>
         {busRoute && (
-          <p className="text-sm font-medium text-blue-300 mt-2">{busRoute}</p>
+          <p className="text-xs font-medium text-blue-600 dark:text-blue-300 mt-1">{busRoute}</p>
         )}
       </div>
 
       {/* Select Button */}
       <button
-        className={`w-full py-2 rounded font-semibold transition-colors ${
-          isDarkMode
-            ? 'bg-primary-600 hover:bg-primary-700 text-white'
-            : 'bg-primary-500 hover:bg-primary-600 text-white'
-        }`}
+        className="w-full py-2.5 rounded-xl font-semibold bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-500 hover:to-cyan-500 text-white transition-all text-sm"
         onClick={(e) => {
           e.stopPropagation();
           onSelect(route);
@@ -149,24 +142,33 @@ export const RecommendationsDisplay: React.FC<RecommendationsDisplayProps> = ({
   recommendations,
   onSelectRoute,
 }) => {
-  const { isDarkMode } = useThemeStore();
-
   if (!recommendations || Object.values(recommendations).every(r => !r)) {
     return null;
   }
 
   return (
-    <div className="mt-8">
-      <h2 className="text-2xl font-bold mb-6">Smart Recommendations</h2>
+    <div className="page-surface-strong mt-8 p-5 md:p-6">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-6">
+        <div className="flex items-center gap-3">
+          <div className="p-2 bg-primary-500/10 rounded-2xl">
+            <Award className="w-6 h-6 text-primary-500" />
+          </div>
+          <div>
+            <h2 className="text-2xl font-bold text-slate-900 dark:text-white">Smart Recommendations</h2>
+            <p className="text-sm text-slate-500 dark:text-slate-400">AI-ranked route options for cost, speed, comfort, and emissions</p>
+          </div>
+        </div>
+        <div className="section-kicker">Realtime route intelligence</div>
+      </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         {/* Best Overall */}
         {recommendations.best_overall && (
           <RecommendationCard
             title="🏆 Best Overall"
-            icon={<Award className="w-5 h-5 text-yellow-400" />}
+            icon={<Award className="w-5 h-5 text-amber-500" />}
             recommendation={recommendations.best_overall}
-            color="bg-yellow-500/10 border-yellow-500/30"
+            accentClass="bg-amber-100 dark:bg-amber-500/20"
             onSelect={onSelectRoute}
           />
         )}
@@ -175,9 +177,9 @@ export const RecommendationsDisplay: React.FC<RecommendationsDisplayProps> = ({
         {recommendations.cheapest && (
           <RecommendationCard
             title="💰 Cheapest"
-            icon={<TrendingDown className="w-5 h-5 text-green-400" />}
+            icon={<TrendingDown className="w-5 h-5 text-green-500" />}
             recommendation={recommendations.cheapest}
-            color="bg-green-500/10 border-green-500/30"
+            accentClass="bg-green-100 dark:bg-green-500/20"
             onSelect={onSelectRoute}
           />
         )}
@@ -186,9 +188,9 @@ export const RecommendationsDisplay: React.FC<RecommendationsDisplayProps> = ({
         {recommendations.fastest && (
           <RecommendationCard
             title="⚡ Fastest"
-            icon={<Zap className="w-5 h-5 text-blue-400" />}
+            icon={<Zap className="w-5 h-5 text-blue-500" />}
             recommendation={recommendations.fastest}
-            color="bg-blue-500/10 border-blue-500/30"
+            accentClass="bg-blue-100 dark:bg-blue-500/20"
             onSelect={onSelectRoute}
           />
         )}
@@ -197,9 +199,9 @@ export const RecommendationsDisplay: React.FC<RecommendationsDisplayProps> = ({
         {recommendations.eco_friendly && (
           <RecommendationCard
             title="🌱 Eco-Friendly"
-            icon={<Leaf className="w-5 h-5 text-emerald-400" />}
+            icon={<Leaf className="w-5 h-5 text-emerald-500" />}
             recommendation={recommendations.eco_friendly}
-            color="bg-emerald-500/10 border-emerald-500/30"
+            accentClass="bg-emerald-100 dark:bg-emerald-500/20"
             onSelect={onSelectRoute}
           />
         )}
@@ -208,9 +210,9 @@ export const RecommendationsDisplay: React.FC<RecommendationsDisplayProps> = ({
         {recommendations.comfort && (
           <RecommendationCard
             title="🛋️ Most Comfortable"
-            icon={<Award className="w-5 h-5 text-purple-400" />}
+            icon={<Award className="w-5 h-5 text-purple-500" />}
             recommendation={recommendations.comfort}
-            color="bg-purple-500/10 border-purple-500/30"
+            accentClass="bg-purple-100 dark:bg-purple-500/20"
             onSelect={onSelectRoute}
           />
         )}

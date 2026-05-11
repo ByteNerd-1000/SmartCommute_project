@@ -120,7 +120,7 @@ export const MapComponent: React.FC<MapComponentProps> = ({
   const selectedId = route?.id;
 
   return (
-    <div className="w-full h-full min-h-[500px] rounded-xl overflow-hidden border border-slate-700">
+    <div className="w-full h-full min-h-[500px] rounded-xl overflow-hidden border border-slate-300 dark:border-slate-700">
       <MapContainer
         center={center}
         zoom={13}

@@ -87,16 +87,61 @@ export const SearchPage: React.FC = () => {
   };
 
   return (
-    <div className={`min-h-screen pt-8 ${isDarkMode ? 'bg-gray-900' : 'bg-gray-50'}`}>
-      <div className="max-w-7xl mx-auto px-4">
-        {/* Header */}
+    <div className="page-shell min-h-screen pt-8 pb-20 bg-slate-50 dark:bg-slate-950 transition-colors duration-300">
+      <div className="max-w-7xl mx-auto px-4 relative z-10">
+        {/* Hero */}
         <motion.div
-          className="mb-8"
+          className="page-surface-strong mb-8 overflow-hidden"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
         >
-          <h1 className={`text-4xl font-bold mb-2 ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>Plan Your Route</h1>
-          <p className={`${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>Find the best multimodal route for your journey</p>
+          <div className="grid gap-8 lg:grid-cols-[1.4fr_1fr] p-6 md:p-10">
+            <div>
+              <span className="section-kicker mb-4">Live route planner</span>
+              <h1 className="text-4xl md:text-5xl font-bold mb-4 text-slate-900 dark:text-white leading-tight">
+                Plan smarter commutes with route comparison, live recommendations, and map-based input.
+              </h1>
+              <p className="text-base md:text-lg text-slate-600 dark:text-slate-300 max-w-2xl">
+                Search any source and destination, then review the best route by cost, travel time, walking effort, and transfer count.
+              </p>
+
+              <div className="mt-6 grid gap-3 sm:grid-cols-3">
+                <div className="page-stat p-4">
+                  <p className="text-xs uppercase tracking-[0.22em] text-slate-500 dark:text-slate-400 mb-1">Step 1</p>
+                  <p className="font-semibold text-slate-900 dark:text-white">Choose your start and end points</p>
+                </div>
+                <div className="page-stat p-4">
+                  <p className="text-xs uppercase tracking-[0.22em] text-slate-500 dark:text-slate-400 mb-1">Step 2</p>
+                  <p className="font-semibold text-slate-900 dark:text-white">Review AI suggestions instantly</p>
+                </div>
+                <div className="page-stat p-4">
+                  <p className="text-xs uppercase tracking-[0.22em] text-slate-500 dark:text-slate-400 mb-1">Step 3</p>
+                  <p className="font-semibold text-slate-900 dark:text-white">Save the best route to history</p>
+                </div>
+              </div>
+            </div>
+
+            <div className="grid gap-4 content-start">
+              <div className="page-stat p-4">
+                <p className="text-xs uppercase tracking-[0.22em] text-slate-500 dark:text-slate-400 mb-2">What you can search</p>
+                <div className="flex flex-wrap gap-2">
+                  {['Landmarks', 'Metro stations', 'Bus stops', 'Addresses', 'Map clicks'].map((item) => (
+                    <span key={item} className="rounded-full bg-white/80 dark:bg-slate-900/70 px-3 py-1 text-sm text-slate-700 dark:text-slate-300 border border-slate-200/80 dark:border-slate-700/80">
+                      {item}
+                    </span>
+                  ))}
+                </div>
+              </div>
+              <div className="page-stat p-4">
+                <p className="text-xs uppercase tracking-[0.22em] text-slate-500 dark:text-slate-400 mb-2">Smart signals</p>
+                <div className="space-y-2 text-sm text-slate-700 dark:text-slate-300">
+                  <p>• Route cards are ranked by value and speed.</p>
+                  <p>• Recommendations highlight the cheapest, fastest, and most comfortable choices.</p>
+                  <p>• The map updates as soon as you select a route.</p>
+                </div>
+              </div>
+            </div>
+          </div>
         </motion.div>
 
         {/* Search Interface */}
@@ -135,8 +180,11 @@ export const SearchPage: React.FC = () => {
           >
             {/* Routes List */}
             <div className="lg:col-span-1">
-              <h2 className={`text-2xl font-bold mb-4 ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>Available Routes</h2>
-              <div className={`space-y-3 max-h-[600px] overflow-y-auto rounded-lg ${isDarkMode ? 'bg-gray-800' : 'bg-white'}`}>
+              <div className="flex items-center justify-between gap-4 mb-4">
+                <h2 className="text-2xl font-bold text-slate-900 dark:text-white">Available Routes</h2>
+                <p className="text-sm text-slate-500 dark:text-slate-400">Compare route cards side by side</p>
+              </div>
+              <div className="space-y-3 max-h-[600px] overflow-y-auto rounded-lg bg-white dark:bg-slate-800 shadow-sm border border-slate-200 dark:border-slate-700 p-2">
                 {routes.map((route, i) => (
                   <RouteCard
                     key={i}
@@ -148,15 +196,14 @@ export const SearchPage: React.FC = () => {
               </div>
             </div>
 
-            {/* Map and Details */}
             <div className="lg:col-span-2">
-              <div className={`rounded-xl overflow-hidden ${isDarkMode ? 'bg-gray-800' : 'bg-white'} p-4`}>
+              <div className="rounded-xl overflow-hidden bg-white dark:bg-slate-800 shadow-sm border border-slate-200 dark:border-slate-700 p-4">
                 {selectedRoute && (
-                  <div className={`mb-4 rounded-lg p-4 ${isDarkMode ? 'bg-gray-900/60' : 'bg-gray-50'}`}>
+                  <div className="mb-4 rounded-lg p-4 bg-slate-50 dark:bg-slate-900/60 border border-slate-100 dark:border-slate-700">
                     <div className="flex flex-wrap items-center justify-between gap-3">
                       <div>
-                        <h3 className="text-xl font-bold">Selected Route</h3>
-                        <p className={isDarkMode ? 'text-gray-400' : 'text-gray-600'}>
+                        <h3 className="text-xl font-bold text-slate-900 dark:text-white">Selected Route</h3>
+                        <p className="text-slate-600 dark:text-slate-400">
                           {[...new Set(selectedRoute.modes)].map((m: string) => modeLabel(m)).join(' → ')}
                           {selectedRoute.via_stops?.find((s: string) => s.startsWith('Bus route:'))
                             ? ` • ${selectedRoute.via_stops.find((s: string) => s.startsWith('Bus route:'))?.replace('Bus route: ', '')}`
@@ -164,8 +211,8 @@ export const SearchPage: React.FC = () => {
                         </p>
                       </div>
                       <div className="text-right">
-                        <p className="text-2xl font-bold text-primary-400">₹{selectedRoute.fare.toFixed(2)}</p>
-                        <p className={isDarkMode ? 'text-gray-400' : 'text-gray-600'}>
+                        <p className="text-2xl font-bold text-primary-500 dark:text-primary-400">₹{selectedRoute.fare.toFixed(2)}</p>
+                        <p className="text-slate-600 dark:text-slate-400">
                           {selectedRoute.duration_minutes} min • {selectedRoute.distance_km.toFixed(1)} km
                         </p>
                       </div>
@@ -179,7 +226,7 @@ export const SearchPage: React.FC = () => {
                   routes={routes}
                   onMapClick={handleMapClick}
                 />
-                <p className={`mt-3 text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+                <p className="mt-3 text-sm text-slate-600 dark:text-slate-400">
                   Click the map to set source first, then destination. Select any route to redraw it here.
                 </p>
               </div>
@@ -190,7 +237,7 @@ export const SearchPage: React.FC = () => {
         {/* Route Optimizer Map */}
         {routes.length === 0 && (
           <motion.div
-            className={`rounded-xl p-4 ${isDarkMode ? 'bg-gray-800' : 'bg-white'}`}
+            className="rounded-xl p-4 bg-white dark:bg-slate-800 shadow-sm border border-slate-200 dark:border-slate-700"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
           >
@@ -199,7 +246,7 @@ export const SearchPage: React.FC = () => {
               destination={destination || undefined}
               onMapClick={handleMapClick}
             />
-            <p className={`mt-3 text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+            <p className="mt-3 text-sm text-slate-600 dark:text-slate-400">
               Click the map to choose source and destination, or search by stop name above.
             </p>
           </motion.div>

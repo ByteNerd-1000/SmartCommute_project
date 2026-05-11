@@ -240,17 +240,28 @@ export const SearchInterface: React.FC<SearchInterfaceProps> = ({ onSearch }) =>
 
   return (
     <motion.div
-      className="w-full max-w-4xl mx-auto p-6 rounded-2xl bg-gradient-to-br from-slate-800 to-slate-900 border border-slate-700 shadow-2xl"
+      className="page-surface-strong w-full max-w-4xl mx-auto p-6 md:p-8"
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6 }}
     >
-      <h2 className="text-2xl font-bold text-white mb-6">Plan Your Route</h2>
+      <div className="flex flex-wrap items-start justify-between gap-4 mb-6">
+        <div>
+          <span className="section-kicker mb-3">Trip builder</span>
+          <h2 className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white">Search your route</h2>
+          <p className="mt-2 text-sm md:text-base text-slate-600 dark:text-slate-300 max-w-2xl">
+            Type a place, station, landmark, or click the map to build a route. We’ll resolve the best options in real time.
+          </p>
+        </div>
+        <div className="page-stat px-4 py-3 text-sm text-slate-700 dark:text-slate-300">
+          Realtime suggestions enabled
+        </div>
+      </div>
 
       <div className="space-y-4">
         {/* Source */}
         <div className="relative z-20" ref={sourceRef}>
-          <label className="block text-sm font-medium text-slate-300 mb-2">From</label>
+          <label className="block text-sm font-semibold text-slate-700 dark:text-slate-200 mb-2">From</label>
           <div className="relative">
             <MapPin className="absolute left-3 top-3 w-5 h-5 text-primary-400 pointer-events-none" />
             <input
@@ -263,7 +274,7 @@ export const SearchInterface: React.FC<SearchInterfaceProps> = ({ onSearch }) =>
               }}
               onFocus={() => setSourceOpen(true)}
               onBlur={() => setTimeout(() => setSourceOpen(false), 200)}
-              className="w-full pl-10 pr-4 py-2 rounded-lg bg-slate-700 border border-slate-600 text-white placeholder-slate-400 focus:outline-none focus:border-primary-400"
+              className="w-full pl-10 pr-4 py-3 rounded-xl bg-white/90 dark:bg-slate-900/70 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white placeholder-slate-500 dark:placeholder-slate-400 focus:outline-none focus:border-primary-400 dark:focus:border-primary-400 transition-colors shadow-sm"
             />
             {source && (
               <span className="absolute right-3 top-3 text-xs text-primary-300 bg-primary-900 px-2 py-1 rounded">
@@ -271,11 +282,12 @@ export const SearchInterface: React.FC<SearchInterfaceProps> = ({ onSearch }) =>
               </span>
             )}
           </div>
+          <p className="mt-2 text-xs text-slate-500 dark:text-slate-400">Start point: choose a station, landmark, or any typed address.</p>
           {/* Source Suggestions */}
           <AnimatePresence>
             {sourceOpen && sourceSuggestions.length > 0 && (
               <motion.div
-                className="absolute top-full left-0 right-0 mt-2 bg-slate-800 border border-slate-700 rounded-lg shadow-lg z-50 max-h-64 overflow-y-auto"
+                className="absolute top-full left-0 right-0 mt-2 bg-white/95 dark:bg-slate-900/95 border border-slate-200 dark:border-slate-700 rounded-2xl shadow-2xl z-50 max-h-64 overflow-y-auto backdrop-blur-xl"
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -10 }}
@@ -284,13 +296,13 @@ export const SearchInterface: React.FC<SearchInterfaceProps> = ({ onSearch }) =>
                   <button
                     key={idx}
                     onClick={() => handleSelectSource(stop)}
-                    className="w-full text-left px-4 py-2 hover:bg-primary-500/20 border-b border-slate-700 last:border-b-0 text-white text-sm transition-colors"
+                    className="w-full text-left px-4 py-3 hover:bg-primary-500/10 dark:hover:bg-primary-500/20 border-b border-slate-200/80 dark:border-slate-700 last:border-b-0 text-slate-900 dark:text-white text-sm transition-colors"
                   >
                     <div className="flex items-center gap-2">
                       <MapPin className="w-4 h-4 text-primary-400" />
                       <div>
                         <p className="font-medium">{stop.stop_name || stop.name}</p>
-                        <p className="text-xs text-slate-400">{stop.type || (stop.stop_id ? 'bus stop' : 'place')} • {(stop.stop_lat || stop.lat).toFixed(3)}, {(stop.stop_lon || stop.lng).toFixed(3)}</p>
+                        <p className="text-xs text-slate-600 dark:text-slate-400">{stop.type || (stop.stop_id ? 'bus stop' : 'place')} • {(stop.stop_lat || stop.lat).toFixed(3)}, {(stop.stop_lon || stop.lng).toFixed(3)}</p>
                       </div>
                     </div>
                   </button>
@@ -302,7 +314,7 @@ export const SearchInterface: React.FC<SearchInterfaceProps> = ({ onSearch }) =>
 
         {/* Destination */}
         <div className="relative z-10" ref={destRef}>
-          <label className="block text-sm font-medium text-slate-300 mb-2">To</label>
+          <label className="block text-sm font-semibold text-slate-700 dark:text-slate-200 mb-2">To</label>
           <div className="relative">
             <MapPin className="absolute left-3 top-3 w-5 h-5 text-primary-400 pointer-events-none" />
             <input
@@ -315,7 +327,7 @@ export const SearchInterface: React.FC<SearchInterfaceProps> = ({ onSearch }) =>
               }}
               onFocus={() => setDestOpen(true)}
               onBlur={() => setTimeout(() => setDestOpen(false), 200)}
-              className="w-full pl-10 pr-4 py-2 rounded-lg bg-slate-700 border border-slate-600 text-white placeholder-slate-400 focus:outline-none focus:border-primary-400"
+              className="w-full pl-10 pr-4 py-3 rounded-xl bg-white/90 dark:bg-slate-900/70 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white placeholder-slate-500 dark:placeholder-slate-400 focus:outline-none focus:border-primary-400 dark:focus:border-primary-400 transition-colors shadow-sm"
             />
             {destination && (
               <span className="absolute right-3 top-3 text-xs text-primary-300 bg-primary-900 px-2 py-1 rounded">
@@ -323,11 +335,12 @@ export const SearchInterface: React.FC<SearchInterfaceProps> = ({ onSearch }) =>
               </span>
             )}
           </div>
+          <p className="mt-2 text-xs text-slate-500 dark:text-slate-400">Destination: enter a final stop or landmark and we’ll geocode it for you.</p>
           {/* Destination Suggestions */}
           <AnimatePresence>
             {destOpen && destSuggestions.length > 0 && (
               <motion.div
-                className="absolute top-full left-0 right-0 mt-2 bg-slate-800 border border-slate-700 rounded-lg shadow-lg z-50 max-h-64 overflow-y-auto"
+                className="absolute top-full left-0 right-0 mt-2 bg-white/95 dark:bg-slate-900/95 border border-slate-200 dark:border-slate-700 rounded-2xl shadow-2xl z-50 max-h-64 overflow-y-auto backdrop-blur-xl"
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -10 }}
@@ -336,13 +349,13 @@ export const SearchInterface: React.FC<SearchInterfaceProps> = ({ onSearch }) =>
                   <button
                     key={idx}
                     onClick={() => handleSelectDestination(stop)}
-                    className="w-full text-left px-4 py-2 hover:bg-primary-500/20 border-b border-slate-700 last:border-b-0 text-white text-sm transition-colors"
+                    className="w-full text-left px-4 py-3 hover:bg-primary-500/10 dark:hover:bg-primary-500/20 border-b border-slate-200/80 dark:border-slate-700 last:border-b-0 text-slate-900 dark:text-white text-sm transition-colors"
                   >
                     <div className="flex items-center gap-2">
                       <MapPin className="w-4 h-4 text-primary-400" />
                       <div>
                         <p className="font-medium">{stop.stop_name || stop.name}</p>
-                        <p className="text-xs text-slate-400">{stop.type || (stop.stop_id ? 'bus stop' : 'place')} • {(stop.stop_lat || stop.lat).toFixed(3)}, {(stop.stop_lon || stop.lng).toFixed(3)}</p>
+                        <p className="text-xs text-slate-600 dark:text-slate-400">{stop.type || (stop.stop_id ? 'bus stop' : 'place')} • {(stop.stop_lat || stop.lat).toFixed(3)}, {(stop.stop_lon || stop.lng).toFixed(3)}</p>
                       </div>
                     </div>
                   </button>
@@ -355,7 +368,7 @@ export const SearchInterface: React.FC<SearchInterfaceProps> = ({ onSearch }) =>
         {/* Error Message */}
         {error && (
           <motion.div
-            className="p-4 rounded-lg bg-red-500/20 border border-red-500/50 text-red-200"
+            className="p-4 rounded-lg bg-red-500/20 border border-red-500/50 text-red-700 dark:text-red-200"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
           >
@@ -367,7 +380,7 @@ export const SearchInterface: React.FC<SearchInterfaceProps> = ({ onSearch }) =>
         <button
           onClick={handleSearch}
           disabled={loading}
-          className="w-full py-3 rounded-lg bg-gradient-to-r from-primary-500 to-primary-600 text-white font-semibold hover:shadow-lg hover:shadow-primary-500/50 disabled:opacity-50 disabled:cursor-not-allowed transition-all flex items-center justify-center gap-2"
+          className="w-full py-3 rounded-xl bg-gradient-to-r from-blue-600 to-cyan-600 text-white font-semibold hover:shadow-lg hover:shadow-blue-500/30 disabled:opacity-50 disabled:cursor-not-allowed transition-all flex items-center justify-center gap-2"
         >
           {loading ? (
             <>
@@ -381,6 +394,7 @@ export const SearchInterface: React.FC<SearchInterfaceProps> = ({ onSearch }) =>
             </>
           )}
         </button>
+        <p className="text-xs text-center text-slate-500 dark:text-slate-400">Tip: search places, stations, or use the map to pin locations directly.</p>
       </div>
     </motion.div>
   );
@@ -416,10 +430,10 @@ export const RouteCard: React.FC<{ route: any; isSelected?: boolean; onSelect?: 
   return (
     <motion.button
       onClick={onSelect}
-      className={`w-full text-left p-4 rounded-xl border transition-all ${
+      className={`w-full text-left p-4 rounded-2xl border transition-all shadow-sm ${
         isSelected
-          ? 'bg-primary-500/20 border-primary-400 shadow-lg shadow-primary-500/10'
-          : 'bg-slate-800 border-slate-700 hover:border-slate-500'
+          ? 'bg-primary-500/15 border-primary-300 dark:border-primary-400 shadow-lg shadow-primary-500/10'
+          : 'bg-white/85 dark:bg-slate-900/70 border-slate-200/80 dark:border-slate-700 hover:border-slate-300 dark:hover:border-slate-500 backdrop-blur-xl'
       }`}
       whileHover={{ y: -2 }}
       whileTap={{ scale: 0.99 }}
@@ -440,41 +454,41 @@ export const RouteCard: React.FC<{ route: any; isSelected?: boolean; onSelect?: 
             );
           })}
         </div>
-        <span className="text-xl font-bold text-primary-400 ml-2 shrink-0">₹{route.fare.toFixed(0)}</span>
+        <span className="text-xl font-bold text-primary-500 dark:text-primary-400 ml-2 shrink-0">₹{route.fare.toFixed(0)}</span>
       </div>
 
       {/* Stats row */}
       <div className="grid grid-cols-4 gap-2 mb-3">
         <div>
-          <p className="text-slate-500 text-xs mb-0.5">Duration</p>
-          <p className="text-white text-sm font-semibold">{route.duration_minutes} min</p>
+          <p className="text-slate-600 dark:text-slate-500 text-xs mb-0.5">Duration</p>
+          <p className="text-slate-900 dark:text-white text-sm font-semibold">{route.duration_minutes} min</p>
         </div>
         <div>
-          <p className="text-slate-500 text-xs mb-0.5">Distance</p>
-          <p className="text-white text-sm font-semibold">{route.distance_km.toFixed(1)} km</p>
+          <p className="text-slate-600 dark:text-slate-500 text-xs mb-0.5">Distance</p>
+          <p className="text-slate-900 dark:text-white text-sm font-semibold">{route.distance_km.toFixed(1)} km</p>
         </div>
         <div>
-          <p className="text-slate-500 text-xs mb-0.5">Walking</p>
-          <p className="text-white text-sm font-semibold">{formatWalk(route.walking_distance_km)}</p>
+          <p className="text-slate-600 dark:text-slate-500 text-xs mb-0.5">Walking</p>
+          <p className="text-slate-900 dark:text-white text-sm font-semibold">{formatWalk(route.walking_distance_km)}</p>
         </div>
         <div>
-          <p className="text-slate-500 text-xs mb-0.5">Transfers</p>
-          <p className="text-white text-sm font-semibold">{route.transfer_count}</p>
+          <p className="text-slate-600 dark:text-slate-500 text-xs mb-0.5">Transfers</p>
+          <p className="text-slate-900 dark:text-white text-sm font-semibold">{route.transfer_count}</p>
         </div>
       </div>
 
       {/* Route guidance (only meaningful info) */}
       {(boardAt || busInfo || alightAt) && (
-        <div className="bg-slate-700/40 rounded-lg px-3 py-2 text-xs text-slate-300 space-y-0.5">
+        <div className="bg-slate-100 dark:bg-slate-700/40 rounded-lg px-3 py-2 text-xs text-slate-700 dark:text-slate-300 space-y-0.5">
           {boardAt && <p>📍 {boardAt.replace('Board at ', '')}</p>}
-          {busInfo && <p className="font-medium text-blue-300">🚌 {busInfo.replace('Bus route: ', '')}</p>}
+          {busInfo && <p className="font-medium text-blue-600 dark:text-blue-300">🚌 {busInfo.replace('Bus route: ', '')}</p>}
           {alightAt && <p>🏁 {alightAt.replace('Get down at ', '')}</p>}
         </div>
       )}
 
       {/* Inline fare breakdown */}
       {route.fare_breakdown && (
-        <div className="mt-2 text-xs text-slate-400">
+        <div className="mt-2 text-xs text-slate-600 dark:text-slate-400">
           <span>{route.fare_breakdown.label}: </span>
           <span>₹{route.fare_breakdown.base_fare} base</span>
           {route.fare_breakdown.distance_component != null && (
