@@ -1,13 +1,12 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useRef } from 'react';
 import { SearchInterface, RouteCard } from '../components/SearchInterface';
 import { RecommendationsDisplay } from '../components/RecommendationsDisplay';
 import { MapComponent } from '../components/MapComponent';
 import { FareComparison } from '../components/FareComparison';
-import { useSearchStore, useTransitStore } from '../store/search';
+import { useSearchStore } from '../store/search';
 import { useThemeStore } from '../store/theme';
 import { useHistoryStore } from '../store/history';
 import { motion } from 'framer-motion';
-import apiService from '../services/api';
 
 const MODE_LABELS: Record<string, string> = {
   walk: 'Walk', bus: 'Bus', metro: 'Metro',
@@ -26,32 +25,9 @@ export const SearchPage: React.FC = () => {
     setSource,
     setDestination,
   } = useSearchStore();
-  const { setBusStops, setMetroStations, setBusStopsLoaded, setMetroStationsLoaded } =
-    useTransitStore();
   const { isDarkMode } = useThemeStore();
   const { addRoute } = useHistoryStore();
   const resultsRef = useRef<HTMLDivElement>(null);
-
-  // Load transit data on mount
-  useEffect(() => {
-    const loadTransitData = async () => {
-      try {
-        const [busResponse, metroResponse] = await Promise.all([
-          apiService.getAllBusStops(),
-          apiService.getAllMetroStations(),
-        ]);
-
-        setBusStops(busResponse.data.stops || []);
-        setMetroStations(metroResponse.data.stations || []);
-        setBusStopsLoaded(true);
-        setMetroStationsLoaded(true);
-      } catch (error) {
-        console.error('Error loading transit data:', error);
-      }
-    };
-
-    loadTransitData();
-  }, []);
 
   const selectRoute = (route: any) => {
     setSelectedRoute(route);

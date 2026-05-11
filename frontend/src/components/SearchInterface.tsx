@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Search, MapPin, Loader } from 'lucide-react';
 import { useSearchStore } from '../store/search';
@@ -40,6 +40,7 @@ export const SearchInterface: React.FC<SearchInterfaceProps> = ({ onSearch }) =>
 
   const { busStops, metroStations, setBusStops, setMetroStations } = useTransitStore();
   const { addRoute } = useHistoryStore();
+  const allStops = useMemo(() => [...(busStops || []), ...(metroStations || [])], [busStops, metroStations]);
 
   const [sourceInput, setSourceInput] = useState(source?.name || '');
   const [destInput, setDestInput] = useState(destination?.name || '');
@@ -101,7 +102,6 @@ export const SearchInterface: React.FC<SearchInterfaceProps> = ({ onSearch }) =>
     }
     const timer = window.setTimeout(async () => {
       // 1. Instant local search (fuzzy)
-      const allStops = [...(busStops || []), ...(metroStations || [])];
       const localResults = allStops.filter(stop => 
         fuzzyMatch(stop.stop_name || stop.name || '', sourceInput)
       ).slice(0, 5);
@@ -133,7 +133,6 @@ export const SearchInterface: React.FC<SearchInterfaceProps> = ({ onSearch }) =>
     }
     const timer = window.setTimeout(async () => {
       // 1. Instant local search (fuzzy)
-      const allStops = [...(busStops || []), ...(metroStations || [])];
       const localResults = allStops.filter(stop => 
         fuzzyMatch(stop.stop_name || stop.name || '', destInput)
       ).slice(0, 5);
@@ -270,7 +269,6 @@ export const SearchInterface: React.FC<SearchInterfaceProps> = ({ onSearch }) =>
               value={sourceInput}
               onChange={(e) => {
                 setSourceInput(e.target.value);
-                setSource(null);
               }}
               onFocus={() => setSourceOpen(true)}
               onBlur={() => setTimeout(() => setSourceOpen(false), 200)}
@@ -323,7 +321,6 @@ export const SearchInterface: React.FC<SearchInterfaceProps> = ({ onSearch }) =>
               value={destInput}
               onChange={(e) => {
                 setDestInput(e.target.value);
-                setDestination(null);
               }}
               onFocus={() => setDestOpen(true)}
               onBlur={() => setTimeout(() => setDestOpen(false), 200)}
